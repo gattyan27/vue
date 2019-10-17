@@ -1,11 +1,12 @@
 <template>
     <div class="col-md-4">
-        <form>
+        <form @submit.prevent="saveTweet">
             <div class="form-group">
                 <textarea 
                     class="form-control" 
                     cols="8" rows="8"
                     maxlength="130"
+                    v-model="body"
                     required>
                 </textarea>
             </div>
@@ -19,7 +20,25 @@
 </template>
 
 <script>
+import Event from '../event.js';
+
 export default {
-    
+    data() {
+        return {
+            body: '',
+            postData: {}
+        }
+    },
+    methods: {
+        saveTweet() {
+            axios.post('tweet/save', {body: this.body}).then(res => {
+                this.postData = res.data;
+                Event.$emit('added_tweet', this.postData);
+            }).catch(e => {
+                console.log(e);
+            });
+            this.body = '';
+        }
+    }
 }
 </script>
