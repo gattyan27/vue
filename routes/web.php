@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('tweet/save', 'PostController@store');
+Route::post('/tweet/save', 'PostController@store');
