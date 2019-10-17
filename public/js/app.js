@@ -1769,8 +1769,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1782,6 +1780,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    axios.get('/posts').then(function (resp) {
+      _this.posts = resp.data;
+    });
     _event_js__WEBPACK_IMPORTED_MODULE_0__["default"].$on('added_tweet', function (post) {
       _this.posts.unshift(post);
     });
@@ -37170,12 +37171,8 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "media-body" }, [
             _c("div", { staticClass: "mt-3" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(post.user.name) +
-                    "\n                "
-                )
+              _c("a", { attrs: { href: post.user.profileLink } }, [
+                _vm._v(_vm._s(post.user.name))
               ]),
               _vm._v(" | " + _vm._s(post.createdDate) + "\n            ")
             ]),

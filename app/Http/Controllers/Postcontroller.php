@@ -7,6 +7,19 @@ use App\Post;
 
 class Postcontroller extends Controller
 {
+    public function index(Request $request, Post $post)
+    {
+        $posts = $post->whereIn('user_id', $request->user()->following()
+                        ->pluck('users.id')
+                        ->push($request->user()->id))
+                        ->with('user')
+                        ->orderBy('created_at', 'desc')
+                        ->take($request->get('limit', 10))
+                        ->get();
+
+        return response()->json($posts);
+    }
+
     public function store(Request $request, Post $post)
     {
         $newPost = $request->user()->posts()->create([
